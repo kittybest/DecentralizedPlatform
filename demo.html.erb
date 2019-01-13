@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Blockchain Final Project</title>
+		<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.31/dist/web3.min.js" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/label.min.css"/>
+	</head>
+	<body>
+		
+		<div class="ui grid">
+			<div class="six wide column"></div>
+			<div class="six wide column">
+				<p><br><br></p>
+				<a class="ui huge tag label">2B 2018 Final Project</a>
+			</div>
+			<div class="six wide column"></div>
+		</div>
+		<div class="ui grid">
+			<div class="three wide column"></div>
+			<div class="five wide column">
+				<div class="ui raised segment">
+					<a class="ui red ribbon label">Title</a>
+					<p><br>GOT7 "Lullaby" M/V</p>
+					<a class="ui blue ribbon label">Music Video</a>
+					<p><br>
+						<iframe width="280" height="210" src="https://www.youtube.com/embed/9RUeTYiJCyA">
+						</iframe>
+					</p>
+				</div>
+			</div>
+			<div class="five wide column">
+				<div class="ui segment">
+					<a class="ui orange right ribbon label">Ropsten Test Net</a>
+					<p id="address"></p>
+					<a class="ui teal right ribbon label">View Count</a>
+					<p id="count"></p>
+				</div>
+				<img class="ui huge rounded image" src="https://i.imgur.com/msBjlJW.png">
+			</div>
+			<div class="three wide column"></div>
+		</div>
+		<script>
+			web3.currentProvider.enable();
+			console.log(web3.currentProvider);
+			console.log(web3.eth.accounts);
+
+			const abi = [{"constant":false,"inputs":[{"name":"_id","type":"uint8"}],"name":"viewVideo","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_numOfMusicVideos","type":"uint8"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"name":"_id","type":"uint8"}],"name":"checkViewCount","outputs":[{"name":"_viewCount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}];
+			const addr = "0xc319c2cbafbc71ef6f086de19d3ac1cce544c572";
+
+			var Eth = window.Eth;
+			const eth = new Eth(web3.currentProvider);
+			const fp = eth.contract(abi).at(addr);
+			const fpJson = {to: addr, from: web3.eth.accounts[0]};
+			
+			fp.checkViewCount("0", fpJson).then(function(result) {
+				document.getElementById("count").innerHTML = "<br><a href=\"" + "https://ropsten.etherscan.io/address/0xc319c2cbafbc71ef6f086de19d3ac1cce544c572" + "\">Deployed Conract</a><br>";
+				document.getElementById("count").innerHTML += "<i class=\"chart bar icon\"></i>&emsp;" + result[0] + "&emsp;Times";
+			});
+
+			document.getElementById("address").innerHTML = "<br>" + web3.eth.accounts[0];			
+		</script>
+	</body>	
+</html>
+
